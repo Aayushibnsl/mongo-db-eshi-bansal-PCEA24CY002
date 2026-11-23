@@ -1,0 +1,155 @@
+C:\Users\Admin>mongosh
+Current Mongosh Log ID:  69228a10f4c10a11b2c3d401
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.8
+Using MongoDB:          8.0.4
+Using Mongosh:          2.3.8
+
+test> use college
+switched to db college
+
+college> db.students.insertOne({ rollNo: 101, name: "Arun", dept: "CSE", marks: 78, city: "Chennai" })
+{
+  acknowledged: true,
+  insertedId: ObjectId('69228a10f4c10a11b2c3d402')
+}
+
+college> db.students.insertMany([
+...   { rollNo: 102, name: "Meena", dept: "ECE", marks: 85, city: "Madurai" },
+...   { rollNo: 103, name: "Karthik", dept: "CSE", marks: 60, city: "Chennai" },
+...   { rollNo: 104, name: "Divya", dept: "MECH", marks: 72, city: "Coimbatore" },
+...   { rollNo: 105, name: "Suresh", dept: "CSE", marks: 91, city: "Trichy" }
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69228a10f4c10a11b2c3d403'),
+    '1': ObjectId('69228a10f4c10a11b2c3d404'),
+    '2': ObjectId('69228a10f4c10a11b2c3d405'),
+    '3': ObjectId('69228a10f4c10a11b2c3d406')
+  }
+}
+
+college> db.students.find()
+[
+  { _id: ObjectId('69228a10f4c10a11b2c3d402'), rollNo: 101, name: 'Arun', dept: 'CSE', marks: 78, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d403'), rollNo: 102, name: 'Meena', dept: 'ECE', marks: 85, city: 'Madurai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d404'), rollNo: 103, name: 'Karthik', dept: 'CSE', marks: 60, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d405'), rollNo: 104, name: 'Divya', dept: 'MECH', marks: 72, city: 'Coimbatore' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d406'), rollNo: 105, name: 'Suresh', dept: 'CSE', marks: 91, city: 'Trichy' }
+]
+
+college> db.students.find({ dept: "CSE" })
+[
+  { _id: ObjectId('69228a10f4c10a11b2c3d402'), rollNo: 101, name: 'Arun', dept: 'CSE', marks: 78, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d404'), rollNo: 103, name: 'Karthik', dept: 'CSE', marks: 60, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d406'), rollNo: 105, name: 'Suresh', dept: 'CSE', marks: 91, city: 'Trichy' }
+]
+
+college> db.students.updateOne({ rollNo: 103 }, { $set: { marks: 68 } })
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+college> db.students.updateMany({ dept: "CSE" }, { $set: { semester: 3 } })
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 3,
+  modifiedCount: 3,
+  upsertedCount: 0
+}
+
+college> db.students.deleteOne({ rollNo: 104 })
+{ acknowledged: true, deletedCount: 1 }
+
+college> db.students.countDocuments()
+4
+
+college> use hr
+switched to db hr
+
+hr> db.employees.insertMany([
+...   { empId: 1, name: "Anita", dept: "HR", salary: 42000, city: "Chennai" },
+...   { empId: 2, name: "Bala", dept: "IT", salary: 65000, city: "Bengaluru" },
+...   { empId: 3, name: "Charan", dept: "IT", salary: 58000, city: "Chennai" },
+...   { empId: 4, name: "Deepa", dept: "Finance", salary: 50000, city: "Mumbai" },
+...   { empId: 5, name: "Elan", dept: "IT", salary: 72000, city: "Chennai" },
+...   { empId: 6, name: "Farah", dept: "HR", salary: 45000, city: "Delhi" },
+...   { empId: 7, name: "Gopal", dept: "Finance", salary: 61000, city: "Chennai" },
+...   { empId: 8, name: "Hema", dept: "Sales", salary: 38000, city: "Hyderabad" }
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69228a10f4c10a11b2c3d407'),
+    '1': ObjectId('69228a10f4c10a11b2c3d408'),
+    '2': ObjectId('69228a10f4c10a11b2c3d409'),
+    '3': ObjectId('69228a10f4c10a11b2c3d40a'),
+    '4': ObjectId('69228a10f4c10a11b2c3d40b'),
+    '5': ObjectId('69228a10f4c10a11b2c3d40c'),
+    '6': ObjectId('69228a10f4c10a11b2c3d40d'),
+    '7': ObjectId('69228a10f4c10a11b2c3d40e')
+  }
+}
+
+hr> db.employees.find({ salary: { $gt: 60000 } })
+[
+  { _id: ObjectId('69228a10f4c10a11b2c3d408'), empId: 2, name: 'Bala', dept: 'IT', salary: 65000, city: 'Bengaluru' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40b'), empId: 5, name: 'Elan', dept: 'IT', salary: 72000, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40d'), empId: 7, name: 'Gopal', dept: 'Finance', salary: 61000, city: 'Chennai' }
+]
+
+hr> db.employees.find({ salary: { $gte: 45000, $lte: 60000 } })
+[
+  { _id: ObjectId('69228a10f4c10a11b2c3d409'), empId: 3, name: 'Charan', dept: 'IT', salary: 58000, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40a'), empId: 4, name: 'Deepa', dept: 'Finance', salary: 50000, city: 'Mumbai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40c'), empId: 6, name: 'Farah', dept: 'HR', salary: 45000, city: 'Delhi' }
+]
+
+hr> db.employees.find({ dept: { $in: ["IT", "Finance"] } })
+[
+  { _id: ObjectId('69228a10f4c10a11b2c3d408'), empId: 2, name: 'Bala', dept: 'IT', salary: 65000, city: 'Bengaluru' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d409'), empId: 3, name: 'Charan', dept: 'IT', salary: 58000, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40a'), empId: 4, name: 'Deepa', dept: 'Finance', salary: 50000, city: 'Mumbai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40b'), empId: 5, name: 'Elan', dept: 'IT', salary: 72000, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40d'), empId: 7, name: 'Gopal', dept: 'Finance', salary: 61000, city: 'Chennai' }
+]
+
+hr> db.employees.find({ $and: [{ city: "Chennai" }, { salary: { $gt: 50000 } }] })
+[
+  { _id: ObjectId('69228a10f4c10a11b2c3d409'), empId: 3, name: 'Charan', dept: 'IT', salary: 58000, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40b'), empId: 5, name: 'Elan', dept: 'IT', salary: 72000, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40d'), empId: 7, name: 'Gopal', dept: 'Finance', salary: 61000, city: 'Chennai' }
+]
+
+hr> db.employees.find({ $or: [{ dept: "HR" }, { salary: { $gt: 70000 } }] })
+[
+  { _id: ObjectId('69228a10f4c10a11b2c3d407'), empId: 1, name: 'Anita', dept: 'HR', salary: 42000, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40b'), empId: 5, name: 'Elan', dept: 'IT', salary: 72000, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40c'), empId: 6, name: 'Farah', dept: 'HR', salary: 45000, city: 'Delhi' }
+]
+
+hr> db.employees.find({ city: { $nin: ["Chennai", "Bengaluru"] } })
+[
+  { _id: ObjectId('69228a10f4c10a11b2c3d40a'), empId: 4, name: 'Deepa', dept: 'Finance', salary: 50000, city: 'Mumbai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40c'), empId: 6, name: 'Farah', dept: 'HR', salary: 45000, city: 'Delhi' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d40e'), empId: 8, name: 'Hema', dept: 'Sales', salary: 38000, city: 'Hyderabad' }
+]
+
+hr> db.employees.find({ name: { $regex: /^[ABC]/ } })
+[
+  { _id: ObjectId('69228a10f4c10a11b2c3d407'), empId: 1, name: 'Anita', dept: 'HR', salary: 42000, city: 'Chennai' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d408'), empId: 2, name: 'Bala', dept: 'IT', salary: 65000, city: 'Bengaluru' },
+  { _id: ObjectId('69228a10f4c10a11b2c3d409'), empId: 3, name: 'Charan', dept: 'IT', salary: 58000, city: 'Chennai' }
+]
+
+hr> db.employees.find({}, { name: 1, salary: 1, _id: 0 }).sort({ salary: -1 }).skip(2).limit(3)
+[
+  { name: 'Gopal', salary: 61000 },
+  { name: 'Charan', salary: 58000 },
+  { name: 'Deepa', salary: 50000 }
+]
